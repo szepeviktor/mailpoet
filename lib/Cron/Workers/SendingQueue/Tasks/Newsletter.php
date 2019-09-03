@@ -102,6 +102,14 @@ class Newsletter {
         $newsletter
       );
     }
+    Logger::getLogger('newsletters')->addInfo(
+      'pre-processing newsletter - rendering',
+      [
+        'newsletter_id' => $newsletter->id,
+        'task_id' => $queue->task_id,
+        'newsletter_rendered' => (isset($rendered_newsletter['html']) && !empty($rendered_newsletter['html'])),
+      ]
+    );
     // check if this is a post notification and if it contains at least 1 ALC post
     if ($newsletter->type === NewsletterModel::TYPE_NOTIFICATION_HISTORY &&
       $this->posts_task->getAlcPostsCount($rendered_newsletter, $newsletter) === 0
@@ -138,6 +146,27 @@ class Newsletter {
       $queue = SendingQueueModel::findOne($queue->id);
       if ($queue instanceof SendingQueueModel) {
         $queue_errors = ($queue->validate() !== true);
+        if ($queue_errors) {
+          Logger::getLogger('newsletters')->addError(
+            'pre-processing newsletter - queue saving',
+            [
+              'newsletter_id' => $newsletter->id,
+              'task_id' => $queue->task_id,
+              'errors' => $queue->getErrors(),
+            ]
+          );
+        }
+      }
+    } else {
+      if ($queue_errors) {
+        Logger::getLogger('newsletters')->addError(
+          'pre-processing newsletter - queue before saving',
+          [
+            'newsletter_id' => $newsletter->id,
+            'task_id' => $queue->task_id,
+            'errors' => $queue->getErrors(),
+          ]
+        );
       }
     }
     if ($queue_errors) {
