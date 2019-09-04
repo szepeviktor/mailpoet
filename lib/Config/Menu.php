@@ -4,6 +4,7 @@ namespace MailPoet\Config;
 
 use MailPoet\AdminPages\Pages\ExperimentalFeatures;
 use MailPoet\AdminPages\Pages\FormEditor;
+use MailPoet\AdminPages\Pages\FormEditorV2;
 use MailPoet\AdminPages\Pages\Forms;
 use MailPoet\AdminPages\Pages\Help;
 use MailPoet\AdminPages\Pages\MP2Migration;
@@ -186,6 +187,19 @@ class Menu {
       [
         $this,
         'formEditor',
+      ]
+    );
+
+    // form editor v2
+    $this->wp->addSubmenuPage(
+      true,
+      $this->setPageTitle(__('Form Editor', 'mailpoet')),
+      $this->wp->__('Form Editor', 'mailpoet'),
+      AccessControl::PERMISSION_MANAGE_FORMS,
+      'mailpoet-form-editor-v2',
+      [
+        $this,
+        'formEditorV2',
       ]
     );
 
@@ -459,6 +473,10 @@ class Menu {
 
   function formEditor() {
     $this->container->get(FormEditor::class)->render();
+  }
+
+  function formEditorV2() {
+    $this->container->get(FormEditorV2::class)->render();
   }
 
   private function displaySubscriberLimitExceeded() {

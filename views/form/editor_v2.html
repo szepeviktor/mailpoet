@@ -1,0 +1,26 @@
+<% extends 'layout.html' %>
+
+<% block after_css %>
+<%= stylesheet(
+'formEditor.css'
+)%>
+<% endblock %>
+
+
+<% block title %>
+<h1 class="title">
+    <%= __('Form') %> V2
+    <a class="page-title-action" href="?page=mailpoet-forms#/" data-automation-id="mailpoet_form_go_back"><%= __('Back') %></a>
+</h1>
+<% endblock %>
+
+<% block content %>
+<div id="mailpoet_form_editor_v2">
+</div>
+
+<script>
+  <% autoescape 'js' %>
+  var mailpoet_form_data = <%= json_encode(form) %>;
+  <% endautoescape %>
+</script>
+<% endblock %>

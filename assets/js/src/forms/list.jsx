@@ -93,6 +93,15 @@ const itemActions = [
     },
   },
   {
+    name: 'edit_v2',
+    label: `${MailPoet.I18n.t('edit')} V2`,
+    link: function link(item) {
+      return (
+        <a href={`admin.php?page=mailpoet-form-editor-v2&id=${item.id}`}>{`${MailPoet.I18n.t('edit')} V2`}</a>
+      );
+    },
+  },
+  {
     name: 'duplicate',
     label: MailPoet.I18n.t('duplicate'),
     onClick: function onClick(item, refresh) {
@@ -124,13 +133,17 @@ const itemActions = [
 ];
 
 class FormList extends React.Component {
-  createForm = () => {
+  createForm = (version) => {
     MailPoet.Ajax.post({
       api_version: window.mailpoet_api_version,
       endpoint: 'forms',
       action: 'create',
     }).done((response) => {
-      window.location = window.mailpoet_form_edit_url + response.data.id;
+      if (version === 'v2') {
+        window.location = window.mailpoet_form_edit_url_v2 + response.data.id;
+      } else {
+        window.location = window.mailpoet_form_edit_url + response.data.id;
+      }
     }).fail((response) => {
       if (response.errors.length > 0) {
         MailPoet.Notice.error(
@@ -197,6 +210,15 @@ class FormList extends React.Component {
             type="button"
           >
             {MailPoet.I18n.t('new')}
+          </button>
+          <button
+            className="page-title-action"
+            href="javascript:;"
+            onClick={() => this.createForm('v2')}
+            data-automation-id="create_new_form"
+            type="button"
+          >
+            {`${MailPoet.I18n.t('new')} V2`}
           </button>
         </h1>
 
