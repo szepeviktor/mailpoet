@@ -359,6 +359,18 @@ const adminConfig = {
   }
 };
 
+// FormEditor config
+const formEditorV2 = {
+  name: 'form_editor_v2',
+  entry: {
+    form_editor_v2: 'form_editor_v2/index.jsx',
+  },
+  externals: {
+    'jquery': 'jQuery',
+    'mailpoet': 'MailPoet'
+  }
+};
+
 // Public config
 const publicConfig = {
   name: 'public',
@@ -459,7 +471,7 @@ const testConfig = {
   }
 };
 
-module.exports = [adminConfig, publicConfig, migratorConfig, testConfig].map((config) => {
+module.exports = [adminConfig, formEditorV2, publicConfig, migratorConfig, testConfig].map((config) => {
   if (config.name !== 'test') {
     config.plugins = config.plugins || [];
     config.plugins.push(
