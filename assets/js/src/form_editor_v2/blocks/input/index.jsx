@@ -9,7 +9,7 @@ export const name = 'mailpoet-form/input-field';
 export const settings = {
   title: 'Input Field',
   icon,
-  category: 'widgets',
+  category: 'custom',
   attributes: {
     id: {
       type: 'string',

@@ -9,7 +9,7 @@ export const email = {
   settings: {
     title: 'Input Email',
     icon,
-    category: 'widgets',
+    category: 'static',
     attributes: {
       id: {
         type: 'string',
@@ -49,7 +49,7 @@ export const firstName = {
   settings: {
     title: 'Input First Name',
     icon,
-    category: 'widgets',
+    category: 'static',
     attributes: {
       id: {
         type: 'string',

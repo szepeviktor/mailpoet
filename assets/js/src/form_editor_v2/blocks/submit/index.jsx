@@ -23,7 +23,7 @@ export const settings = {
       default: 0,
     },
   },
-  category: 'widgets',
+  category: 'static',
   supports: {
     html: false,
     customClassName: false,
