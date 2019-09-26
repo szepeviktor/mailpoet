@@ -21,6 +21,7 @@
 <script>
   <% autoescape 'js' %>
   var mailpoet_form_data = <%= json_encode(form) %>;
+  var mailpoet_form_editor_styles = <%= json_encode(editor_styles) %>;
   <% endautoescape %>
 </script>
 <%= javascript('form_editor_v2.js')%>

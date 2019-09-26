@@ -22,11 +22,6 @@ const SubmitEdit = ({ attributes, setAttributes }) => {
   };
 
   const buttonStyle = {
-    borderColor: '#aaa',
-    backgroundColor: '#ddd',
-    color: '#333',
-    padding: '10px 15px',
-    fontSize: '20px',
     borderRadius: `${attributes.borderRadius}px`,
   };
 

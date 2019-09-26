@@ -18,6 +18,7 @@ import {
   BlockInspector,
   WritingFlow,
   ObserveTyping,
+  transformStyles,
 } from '@wordpress/block-editor';
 
 import {
@@ -50,7 +51,7 @@ import * as inputBlock from './blocks/input/index.jsx';
 import * as staticInputBlocks from './blocks/static_input/index.jsx';
 import SidePanel from './components/panel.jsx';
 
-export const Editor = () => {
+export const Editor = ({themeStyles}) => {
   const lists = [
     {
       value: 1,
@@ -70,6 +71,18 @@ export const Editor = () => {
   const [formLists, updateFormLists] = useState([]);
 
   const blocksRef = useRef();
+
+  useEffect(() => {
+    const updatedStyles = transformStyles(themeStyles, '.editor-styles-wrapper');
+
+    updatedStyles.forEach((updatedCSS) => {
+      if (updatedCSS) {
+        const node = document.createElement('style');
+        node.innerHTML = updatedCSS;
+        document.body.appendChild(node);
+      }
+    });
+  }, [themeStyles]);
 
   /* eslint-disable no-console */
   useEffect(() => {
