@@ -1,18 +1,21 @@
 /**
  * Internal dependencies
  */
-import icon from './icon.jsx';
 import edit from './edit.jsx';
 
-export const name = 'mailpoet-form/input-field';
+export const name = 'mailpoet-form/acc-custom-field';
 
 export const settings = {
-  title: 'Input Field',
-  icon,
+  title: 'New Custom Field',
+  icon: 'plus',
   category: 'custom',
   attributes: {
     id: {
       type: 'string',
+    },
+    updated: {
+      type: 'boolean',
+      default: false,
     },
     label: {
       type: 'string',

@@ -48,10 +48,12 @@ import MailPoet from '../mailpoet';
 import * as BCMapper from './bc-mapper.jsx';
 import * as submitBlock from './blocks/submit/index.jsx';
 import * as inputBlock from './blocks/input/index.jsx';
+import * as customAdd from './blocks/custom_add/index.jsx';
 import * as staticInputBlocks from './blocks/static_input/index.jsx';
 import SidePanel from './components/panel.jsx';
 
-export const Editor = ({themeStyles}) => {
+// eslint-disable-next-line react/prop-types
+export const Editor = ({ themeStyles }) => {
   const lists = [
     {
       value: 1,
@@ -101,6 +103,37 @@ export const Editor = ({themeStyles}) => {
       return;
     }
     blocksRef.current = blocks;
+
+    const addCustom = blocks.find((block) => (block.name === 'mailpoet-form/acc-custom-field'));
+    if (addCustom && addCustom.attributes.updated) {
+      const attributes = Object.assign({}, inputBlock.settings.attributes);
+      attributes.label.default = addCustom.attributes.label;
+      const settings = Object.assign(
+        {}, inputBlock.settings, {
+          title: addCustom.attributes.label,
+          attributes,
+        }
+      );
+      const blockName = `mailpoet-form/custom-${addCustom.attributes.label.toLowerCase()}`.split(' ').join('-');
+      const blockId = `mailpoet-custom-${addCustom.attributes.label.toLowerCase()}`.split(' ').join('-');
+      registerBlockType(blockName, settings);
+      const newBlock = {
+        clientId: blockId,
+        isValid: true,
+        name: blockName,
+        innerBlocks: [],
+        attributes: {
+          id: blockId,
+          label: addCustom.attributes.label,
+          fieldType: 'text',
+          fieldName: addCustom.attributes.label.toLowerCase(),
+          useLabels: true,
+        },
+      };
+      const newBlocks = blocks.slice(0).filter((item) => (item.name !== 'mailpoet-form/acc-custom-field'));
+      newBlocks.push(newBlock);
+      updateBlocks(newBlocks);
+    }
   }, [blocks]);
 
   const onUseLabelsChange = (value) => {
@@ -195,10 +228,10 @@ export const initBlocks = () => {
   ]);
 
   registerBlockType(submitBlock.name, submitBlock.settings);
-  registerBlockType(inputBlock.name, inputBlock.settings);
   registerBlockType(staticInputBlocks.email.name, staticInputBlocks.email.settings);
   registerBlockType(staticInputBlocks.firstName.name, staticInputBlocks.firstName.settings);
-
+  registerBlockType(customAdd.name, customAdd.settings);
+  registerBlockType(inputBlock.name, inputBlock.settings);
   // Core blocks
   const htmlSettings = Object.assign({}, html.metadata, html.settings, { category: 'layout' });
   htmlSettings.supports.multiple = false;
