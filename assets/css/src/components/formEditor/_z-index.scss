@@ -1,7 +1,7 @@
 // Stores a list of z-index values in a central location.  For clarity, when a
 // specific value is needed, add a comment explaining why (what other rules the
 // value is designed to work with).
-
+/* stylelint-disable */
 $z-layers: (
   '.block-editor-block-list__block-edit::before': 0,
   '.block-editor-block-switcher__arrow': 1,
@@ -32,9 +32,10 @@ $z-layers: (
   '.wp-block-cover.has-background-dim::before': 1,
   '.wp-block-cover__video-background': 0,
   '.components-button.is-button {:focus or .is-primary}': 1,
+  '.block-editor-block-mover__control': 10000000000,
   '.components-draggable__clone': 1000000000,
   '.components-placeholder__fieldset': 1,
-  '.block-editor-block-list__block-edit .reusable-block-edit-panel * ': 1,
+  '.block-editor-block-list__block-edit .reusable-block-edit-panel *': 1,
   '.components-drop-zone': 40,
   '.components-drop-zone__content': 50,
   '.block-editor-block-list__block {core/image aligned left or right}': 21,
@@ -72,3 +73,4 @@ $z-layers: (
 
   @error 'Error: Specified z-index `#{$key}` does not exist in the mapping';
 }
+/* stylelint-enable */
