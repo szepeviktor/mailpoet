@@ -3,6 +3,7 @@
 namespace MailPoet\Models;
 
 use MailPoet\DI\ContainerWrapper;
+use MailPoet\Logging\LoggerFactory;
 use MailPoet\Settings\SettingsController;
 use MailPoet\Util\Helpers;
 use MailPoet\Util\Security;
@@ -75,6 +76,16 @@ class Subscriber extends Model {
   }
 
   public function save() {
+    if ($this->id) {
+      $dbRecord = Subscriber::findOne($this->id);
+      if ($this->status === Subscriber::STATUS_UNSUBSCRIBED && $dbRecord->status !== Subscriber::STATUS_UNSUBSCRIBED) {
+        LoggerFactory::getInstance()->getLogger('unsubscribe_debug')->addInfo(
+          'subscriber_save',
+          ['subscriber_id' => $this->id,  'email' => $this->email, 'wp_user' => WPFunctions::get()->getCurrentUserId()]
+        );
+      }
+    }
+
     // convert email to lowercase format
     $this->email = strtolower($this->email);
     return parent::save();

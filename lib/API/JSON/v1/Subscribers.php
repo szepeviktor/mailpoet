@@ -8,6 +8,7 @@ use MailPoet\API\JSON\Response as APIResponse;
 use MailPoet\Config\AccessControl;
 use MailPoet\Form\Util\FieldNameObfuscator;
 use MailPoet\Listing;
+use MailPoet\Logging\LoggerFactory;
 use MailPoet\Models\Form;
 use MailPoet\Models\Segment;
 use MailPoet\Models\StatisticsForms;
@@ -342,6 +343,10 @@ class Subscribers extends APIEndpoint {
     }
     $data['segments'] = array_merge($data['segments'], $this->getNonDefaultSubscribedSegments($data));
     $newSegments = $this->findNewSegments($data);
+    $dbRecord = null;
+    if (isset($data['id'])) {
+      $dbRecord = Subscriber::findOne($data['id']);
+    }
     $subscriber = Subscriber::createOrUpdate($data);
     $errors = $subscriber->getErrors();
 
@@ -352,6 +357,13 @@ class Subscribers extends APIEndpoint {
     if ($subscriber->isNew()) {
       $subscriber = Source::setSource($subscriber, Source::ADMINISTRATOR);
       $subscriber->save();
+    }
+
+    if ($dbRecord && $data['status'] === Subscriber::STATUS_UNSUBSCRIBED && $dbRecord->status !== Subscriber::STATUS_UNSUBSCRIBED) {
+      LoggerFactory::getInstance()->getLogger('unsubscribe_debug')->addInfo(
+        'api_save_unsubscribe',
+        ['args' => $data, 'wp_user' => $this->wp->getCurrentUserId()]
+      );
     }
 
     if (!empty($newSegments)) {
