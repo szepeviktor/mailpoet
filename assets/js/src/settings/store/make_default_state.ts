@@ -15,5 +15,6 @@ export default function makeDefaultState(window: any): State {
     data: normalizeSettings(window.mailpoet_settings),
     segments: window.mailpoet_segments,
     pages: window.mailpoet_pages,
+    paths: window.mailpoet_paths,
   };
 }

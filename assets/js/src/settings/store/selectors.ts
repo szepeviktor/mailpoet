@@ -44,3 +44,7 @@ export function getSegments(state: State) {
 export function getPages(state: State) {
   return state.pages;
 }
+
+export function getPaths(state: State) {
+  return state.paths;
+}
