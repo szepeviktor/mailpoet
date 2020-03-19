@@ -187,6 +187,7 @@ export type State = {
   }
   flags: {
     woocommerce: boolean
+    membersPlugin: boolean
     newUser: boolean
     error: boolean
   }
