@@ -56,6 +56,9 @@ if (jQuery('#mailpoet_settings').length > 0) {
           window.location.href = '?page=mailpoet-new-settings#/woocommerce';
         }
       }
+      if (tab === 'advanced') {
+        window.location.href = '?page=mailpoet-new-settings#/advanced';
+      }
       // reset all active tabs
       jQuery('.nav-tab-wrapper a').removeClass('nav-tab-active');
 
