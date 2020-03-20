@@ -12,6 +12,7 @@ export default function makeDefaultState(window: any): State {
       woocommerce: !!window.mailpoet_woocommerce_active,
       membersPlugin: !!window.mailpoet_members_plugin_active,
       newUser: !!window.mailpoet_is_new_user,
+      builtInCaptcha: window.mailpoet_built_in_captcha_supported,
     },
     data: normalizeSettings(window.mailpoet_settings),
     segments: window.mailpoet_segments,

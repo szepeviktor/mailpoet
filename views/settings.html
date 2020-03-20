@@ -16,6 +16,7 @@
       var mailpoet_segments = <%= json_encode(segments) %>;
       var mailpoet_pages = <%= json_encode(pages) %>;
       var mailpoet_paths = <%= json_encode(paths) %>;
+      var mailpoet_built_in_captcha_supported = <%= json_encode(built_in_captcha_supported == true) %>;
     <% endautoescape %>
     var mailpoet_beacon_articles = [
       '57f71d49c697911f2d323486',
