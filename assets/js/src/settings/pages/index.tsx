@@ -1,4 +1,4 @@
-export { default as Advanced } from './advanced';
+export { default as Advanced } from './advanced/advanced';
 export { default as Basics } from './basics';
 export { default as KeyActivation } from './key_activation';
 export { default as SendWith } from './send_with';
